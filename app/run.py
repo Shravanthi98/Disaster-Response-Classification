@@ -65,7 +65,7 @@ def index():
                     'title': "Genre"
                 }
             }
-        }
+        },
 
 
         {
