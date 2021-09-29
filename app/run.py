@@ -46,7 +46,6 @@ def index():
     category_names = df.iloc[:, 3:].sum().sort_values(ascending=False).index[:10]
     category_counts = df.iloc[:, 3:].sum().sort_values(ascending=False).values[:10]
     # create visuals
-    # TODO: Below is an example - modify to create your own visuals
     graphs = [
         {
             'data': [
@@ -115,6 +114,7 @@ def go():
 
 
 def main():
+    # Replace 0.0.0.0 with localhost or 127.0.0.1 when running it locally.
     app.run(host='0.0.0.0', port=3001, debug=True)
 
 
