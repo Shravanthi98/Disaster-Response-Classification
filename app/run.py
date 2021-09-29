@@ -39,10 +39,12 @@ model = joblib.load("../models/classifier.pkl")
 def index():
     
     # extract data needed for visuals
-    # TODO: Below is an example - modify to extract data for your own visuals
+    # Graph - 1: Data for message distribution by genre
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
-    
+    # Graph - 2: Data for top 10 of the most commonly tagged categories
+    category_names = df.iloc[:, 3:].sum().sort_values(ascending=False).index[:10]
+    category_counts = df.iloc[:, 3:].sum().sort_values(ascending=False).values[:10]
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
@@ -64,6 +66,26 @@ def index():
                 }
             }
         }
+
+
+        {
+            'data': [
+                Bar(
+                    x=category_names,
+                    y=category_counts
+                )
+            ],
+
+            'layout': {
+                'title': 'Top 10 commonly tagged categories',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Category"
+                }
+            }
+        }
     ]
     
     # encode plotly graphs in JSON
@@ -82,7 +104,7 @@ def go():
 
     # use model to predict classification for query
     classification_labels = model.predict([query])[0]
-    classification_results = dict(zip(df.columns[4:], classification_labels))
+    classification_results = dict(zip(df.columns[3:], classification_labels))
 
     # This will render the go.html Please see that file. 
     return render_template(
